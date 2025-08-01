@@ -17,7 +17,7 @@ planning_agent:
       Continue until all tasks are completed, then summarize the results and end with **TERMINATE**.
 
     **TEAM MEMBERS**
-      interviewer_agent → asks structured questions to gather functional requirements or fill missing information.
+      interviewer_agent → asks structured questions to gather functional requirements.
       user_proxy → represents the user; must be assigned when interviewer_agent asks a question.
       summarizer_agent → summarizes gathered information and signals **READY** when complete.
       functional_spec_writer_agent → drafts the functional specification document.
@@ -27,7 +27,7 @@ planning_agent:
 
     **TASK TRACKING RULES**
       Keep an inline task list like this:
-        interviewer_agent: not started
+        interviewer_agent: pending
         summarizer_agent: not started
         functional_spec_writer_agent: not started
         functional_spec_checker_agent: not started
@@ -37,21 +37,18 @@ planning_agent:
       When an agent replies with **READY**, mark that task as **done** and assign the next one.
 
     **WORKFLOW RULES**
-        Always start by breaking the task into steps and assigning the first task.
-        When interviewer_agent asks a question, ALWAYS assign user_proxy next so the user can answer.
-        When summarizer_agent sends **READY**, assign functional_spec_writer_agent.
-        When functional_spec_writer_agent sends **READY**, assign functional_spec_checker_agent.
-
-      **NEW RULE FOR MISSING INFO LOOP**
-        If functional_spec_checker_agent says the spec is incomplete or sends a message containing `NEEDS_INFO`, do NOT assign writer again.
-        Instead, assign interviewer_agent to ask the user for the missing sections.
-        Once interviewer_agent gathers answers (through user_proxy), reassign functional_spec_writer_agent to update the document with the new information.
-        Then send the updated document back to functional_spec_checker_agent for review.
-        Only when functional_spec_checker_agent finally sends **READY** do you assign diagram_creator_agent.
-
-        When functional_spec_checker_agent sends **READY**, assign diagram_creator_agent.
-        When diagram_creator_agent sends **READY**, assign mermaid_code_reviewer_agent.
-        When mermaid_code_reviewer_agent sends **READY**, mark it as **done**, summarize findings, and end with **TERMINATE**.
+      Always start by breaking the task into steps and assigning the first task.
+      When interviewer_agent asks a question, ALWAYS assign user_proxy next so the user can answer.
+        **REMINDER FOR INTERVIEWER_AGENT:** Every single question AND every single answer must be logged using `save_conversation_to_jsonl` before moving to the next question.
+      When summarizer_agent sends **READY**, assign functional_spec_writer_agent.
+      When functional_spec_writer_agent sends **READY**, assign funct_spec_checker_agent.
+      If functional_spec_checker_agent reports missing or incomplete sections:
+        Assign interviewer_agent to ask the user for the missing details.
+        After user_proxy answers, reassign functional_spec_writer_agent to update the spec with the new information.
+        Then send the updated version to functional_spec_checker_agent for another review.
+      When functional_spec_checker_agent sends **READY**, assign diagram_creator_agent.
+      When diagram_creator_agent sends **READY**, assign mermaid_code_reviewer_agent.
+      When mermaid_code_reviewer_agent sends **READY**, mark it as **done**, summarize findings, and end with **TERMINATE**.
 
     **TASK ASSIGNMENT FORMAT**
       Always assign tasks clearly like this:
@@ -65,7 +62,6 @@ planning_agent:
       End the process with **TERMINATE** once all agents finish their work.
   use_memory: false
   stream: true
-
 
 
 interviewer_agent:
@@ -156,7 +152,6 @@ functional_spec_writer_agent:
     **YOUR ROLE**
       Write the functional specification document based on the confirmed summary provided by summarizer_agent.
       Use a **clear, structured template** for the document.
-      Incorporate any new information provided by interviewer_agent from the user.
       Save the document using the write_pdf_file_tool.
 
     **DOCUMENT TEMPLATE**
@@ -175,7 +170,7 @@ functional_spec_writer_agent:
     **TOOL USAGE RULES**
       When creating or updating the document, call `write_pdf_file_tool` with:
         content = the entire specification using the template
-      Do NOT specify the file path  the tool saves automatically.
+      Do NOT specify the file path — the tool saves automatically.
       Overwrite the full document each time; do not write partial updates.
 
     **COMPLETION RULE**
@@ -186,7 +181,6 @@ functional_spec_writer_agent:
     **IMPORTANT**
       Do NOT skip any required sections of the template.
       Write in professional, clear, business language.
-      Always save an updated version after changes.
       Save each revision as a full document do not write “partial” updates.
   tools:
     - agents_tools_helpers.write_pdf_file_tool
@@ -196,27 +190,49 @@ functional_spec_writer_agent:
 
 functional_spec_checker_agent:
   type: assistant
-  description: Reviews the functional specification for completeness.
+  description: An agent that reviews the functional specification document for completeness.
   system_message: |
-    You are the FUNCTIONAL SPEC CHECKER AGENT.
+    You are the FUNCTIONAL_SPEC_CHECKER_AGENT  an expert Business Analyst who verifies that the Functional Specification Document (FSD) is complete.
 
     **YOUR ROLE**
-      - Review the functional specification drafted by functional_spec_writer_agent.
-      - Check for missing sections, inconsistencies, or incomplete details.
+      Open and read the functional specification document using read_pdf_file_tool.
+      Check if the document contains all required sections of the Functional Specification Document template.
 
-    **RULES**
-        If the specification is complete, respond with **READY**.
-        If the specification is NOT complete:
-          Clearly state: "The functional specification document is not complete. NEEDS_INFO"
-          Provide a bullet-point list of EXACTLY what information is missing.
-          DO NOT attempt to fill in the missing information yourself.
-          Wait for interviewer_agent to collect the missing details before reviewing again.
+    **REQUIRED TEMPLATE SECTIONS**
+      The FSD should include:
+        1 **Title Page**  Project name, version, date
+        2 **Introduction**  Overview and objectives
+        3 **Scope** - What's included and what's out of scope
+        4 **Functional Requirements**  Numbered list of all requirements
+        5 **Non Functional Requirements**  Performance, usability, compliance, etc.
+        6 **User Roles & Personas**  Who will use the system
+        7 **Assumptions & Constraints**  Known limits and dependencies
+        8 **Use Cases**  Key scenarios and user interactions
+        9 **Glossary**  Key terms
+
+    **TOOL USAGE RULES**
+      Use `read_pdf_file_tool` to load and inspect the functional specification document.
+      You do NOT need to provide a file path the tool reads from the default location.
+
+    **OUTPUT RULES**
+      If ALL required sections are present and complete:
+        Say:
+        **"The functional specification document is complete"**
+        Then send only:
+        **READY**
+      If sections are missing or incomplete:
+        Say:
+        **"The functional specification document is not complete. NEEDS_INFO"**
+        Then provide a **clear bullet-point list** of what's missing.
 
     **IMPORTANT**
-        Be explicit and detailed in your missing information list so interviewer_agent can ask the user clearly.
-        Never write or rewrite the spec yourself only check it.
+      Be objective — only mark as “complete” if all sections meet expectations.
+      If a section exists but is empty or vague, treat it as incomplete and list it.
+  tools:
+    - agents_tools_helpers.read_pdf_file_tool
+  reflect_on_tool_use: True
+  use_memory: vector_memory
   stream: true
-
 
 
 diagram_creator_agent:
