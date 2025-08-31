@@ -1,27 +1,27 @@
-ahora debemos trabajar en el marco teorico, las críticas del profesor incluyen, primero: que hay un "Marco contextual y alcance" y luego un "Marco teórico propuesto" que esto no tiene sentido, esto deberia estar unificado. Segundo: que como es un apartado teórico no puede ser una lista y enumeraciones de conceptos y tercero: que esta muy escueto que hay que desarrollar mas. Quizás para unificar y no enumerar lo que podemos hacer es ir contando una historia que vaya explicando lo que necesitamos entender y finalizar explicando el marco teorico elegido. Por ejemplo: para poder entender el funcionamiento de sistemas multiagente primero tenemos que entender que es un LLM y despues como estos afectaron el desarrollo de agentes, etc y seguir con todos los conceptos siempre explicando como una historia pero de forma academica pasar explicando teorias de coordinacion de agentes y todo lo enumerado pero esta ordenado de manera logica, academica y que tenga sentido para un marco teorico. Quiero que tambien incluyas la informacion de esta pagina web: https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns.
+https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns.
 
-Es muy importante que inlucyas toda la informacion siguiente pero con las indicaciones que te he dado, el Marco Teorico debe ocupar aproximadamente 30 paginas
 
-2.	Marco teórico
 
-2.1 Marco contextual y alcance
+Marco teórico
+
+Marco contextual y alcance
 Antes de exponer el marco formal propuesto, resulta fundamental establecer sus bases conceptuales y posicionarlo dentro del contexto más amplio de los sistemas multiagente (MAS) y los enfoques de coordinación semántica. En esta sección se presentan los conceptos esenciales y las tecnologías que respaldan nuestra propuesta, así como la terminología que se empleará a lo largo del documento. Nos centraremos particularmente en la teoría de TB-CSPN (Topic-Based Conditional Structured Process Networks) y en el uso de redes de Petri como soporte formal, sin ahondar en sus demostraciones matemáticas, ya que estas exceden el alcance y los objetivos de este trabajo.
 
-2.1.1 TB-CSPN (Topic-Based Conditional Structured Process Networks) es un marco arquitectónico diseñado para modelar y coordinar interacciones entre múltiples agentes —humanos, Large Language Models (LLMs) y agentes especializados— dentro de sistemas distribuidos y orientados a procesos. Se basa en la idea de representar las dinámicas organizativas como redes estructuradas de procesos, donde cada transición está condicionada por el estado de tópicos semánticos compartidos.
+TB-CSPN (Topic-Based Conditional Structured Process Networks) es un marco arquitectónico diseñado para modelar y coordinar interacciones entre múltiples agentes —humanos, Large Language Models (LLMs) y agentes especializados— dentro de sistemas distribuidos y orientados a procesos. Se basa en la idea de representar las dinámicas organizativas como redes estructuradas de procesos, donde cada transición está condicionada por el estado de tópicos semánticos compartidos.
 
 
 
 
 En este marco, los "tópicos" actúan como unidades conceptuales que encapsulan el significado y contexto de una conversación o flujo de trabajo, y su evolución se regula mediante umbrales de activación (threshold guards) y mecanismos de supervisión jerárquica. Las transiciones entre estados del sistema están organizadas en tres capas funcionales:
-•	Capa de Superficie (Surface Layer): donde ocurren interacciones de alto nivel entre agentes supervisores y humanos.
-•	Capa de Observación (Observation Layer): dedicada al monitoreo, análisis semántico y síntesis de información, comúnmente gestionada por agentes basados en LLMs.
-•	Capa de Cómputo (Computation Layer): donde se ejecutan tareas específicas y deterministas mediante agentes especializados.
+Capa de Superficie (Surface Layer): donde ocurren interacciones de alto nivel entre agentes supervisores y humanos.
+Capa de Observación (Observation Layer): dedicada al monitoreo, análisis semántico y síntesis de información, comúnmente gestionada por agentes basados en LLMs.
+Capa de Cómputo (Computation Layer): donde se ejecutan tareas específicas y deterministas mediante agentes especializados.
 
 El modelo TB-CSPN no solo permite una separación clara de funciones entre tipos de agentes, sino que también facilita una coordinación transversal, al permitir que agentes con diferentes roles puedan interactuar y modificar transiciones distribuidas en múltiples capas. Este diseño favorece la trazabilidad, la auditabilidad y la preservación de la intención semántica humana en todo el ciclo de vida del sistema.
 En suma, TB-CSPN es una abstracción poderosa para diseñar arquitecturas agenticas híbridas, garantizando una integración coherente entre la lógica humana y la ejecución automática distribuida (1)(3).
 
 
-2.1.2 Redes de Petri para el modelado de procesos
+Redes de Petri para el modelado de procesos
 Las redes de Petri constituyen la base formal del marco TB-CSPN, ofreciendo un enfoque matemáticamente riguroso para modelar sistemas concurrentes y distribuidos. Su estructura se basa en grafos bipartitos compuestos por lugares (que representan estados o condiciones) y transiciones (que representan eventos o acciones), conectados mediante arcos dirigidos.
 La variante utilizada en TB-CSPN es la de las redes de Petri coloreadas, que extienden el modelo básico permitiendo que los tokens transporten datos (colores). En este contexto, los tokens pueden codificar distribuciones complejas de tópicos, influenciando el comportamiento de las transiciones en función del contenido semántico.
 A diferencia de otros marcos más abstractos o de difícil interpretación, las redes de Petri combinan claridad estructural con capacidad formal de análisis, facilitando tanto la implementación como la verificación del sistema. Esta propiedad es especialmente relevante en entornos críticos —como salud, finanzas o seguridad— donde es necesario garantizar propiedades como accesibilidad, vivacidad y acotación.
@@ -29,14 +29,14 @@ Frente a modelos tradicionales de MAS que se enfocan en grafos de comunicación 
 Una ventaja adicional clave es su capacidad para representar la colaboración humano-IA mediante la asignación de transiciones a decisiones de alto nivel (estratégicas, éticas o contextuales), permitiendo modelar el juicio humano sin necesidad de describir su cognición interna. Esto convierte a las redes de Petri en una herramienta ideal para entornos híbridos donde agentes humanos, LLMs y agentes centáuricos deben coordinarse de forma coherente y trazable (9).
 Finalmente, el marco TB-CSPN puede beneficiarse de extensiones avanzadas como las redes de Petri jerárquicas, con arcos inhibidores o contextuales, que permiten modularidad, activación condicional o dependencia semántica, y representan líneas prometedoras para su evolución futura.
 
-2.1.3 Los LLMs como agentes
+Los LLMs como agentes
 La consolidación de los modelos de lenguaje de gran tamaño (LLMs) como agentes funcionales representa un avance notable en el campo de la inteligencia artificial. Investigaciones recientes, como las de Singh et al., han documentado una transición desde interacciones lineales hacia flujos de trabajo más complejos, iterativos y dinámicos, en los que los LLMs participan activamente mediante procesos de planificación, reflexión y colaboración multiagente.
 En este nuevo rol, los LLMs actúan como mediadores semánticos, facilitando la integración de marcos estratégicos con heurísticas de decisión, como lo demuestra el trabajo de Ghisellini (21). A través del uso de representaciones en espacios vectoriales y cálculos de similitud semántica, estos modelos son capaces de conectar conocimientos provenientes de distintas disciplinas, desempeñando un papel muy similar al de nuestros agentes consultores, cuya función es sintetizar información transversalmente entre dominios.
 En este contexto, los LLMs se configuran como puentes entre estructuras analíticas formales y conocimiento experiencial, enlazando la intención estratégica de los agentes supervisores con la ejecución operativa de los agentes especializados.
 Esta línea de trabajo se conecta directamente con investigaciones sobre el uso de LLMs para tareas de planificación y razonamiento, como las de Capitanelli y Mastrogiovanni (20), quienes demuestran la capacidad de estos modelos para orquestar acciones en entornos de interacción humano-robot. Esta función corresponde al rol que asignamos a los agentes consultores en TB-CSPN: facilitar la traducción del propósito estratégico en acciones específicas y viables.
 Finalmente, para abordar el reto de integrar razonamiento simbólico y subsimbólico, nuestro enfoque se inspira en el trabajo de Tenenbaum, que propone mecanismos de conciliación entre ambos tipos de procesamiento cognitivo. En este marco, el modelado de tópicos se convierte en una capa de mediación clave que permite a los distintos tipos de agentes comunicarse de manera coherente y efectiva.
 
-2.1.4 Herramientas en sistemas de agentes LLM
+Herramientas en sistemas de agentes LLM
 Las herramientas representan un componente esencial en la arquitectura de los agentes basados en modelos de lenguaje (LLM). Cuando los agentes enfrentan tareas complejas o que exceden sus capacidades básicas —como cálculos precisos, acceso a datos en tiempo real o manipulación estructurada de información (12)(13)(14)— recurren a herramientas externas para complementar sus respuestas y ampliar su margen de acción.
 Además de utilizar herramientas preexistentes, algunos agentes pueden diseñar o construir herramientas propias, adaptadas a los requerimientos específicos del entorno en el que operan. Esta capacidad de autogeneración se activa especialmente en tareas creativas o de resolución de problemas no estructurados.
 Por otro lado, para que un agente LLM funcione de forma confiable en un entorno real, también necesita un conjunto de herramientas de soporte para su despliegue, mantenimiento y adquisición de datos. Estas herramientas aseguran que el agente no solo sea competente desde el punto de vista funcional, sino también sostenible y operativamente robusto.
@@ -54,22 +54,22 @@ Por otro lado, para que un agente LLM funcione de forma confiable en un entorno 
 
 
 
-2.1.5 Herramientas utilizadas por los agentes LLM
+Herramientas utilizadas por los agentes LLM
 Dado que los LLMs presentan limitaciones notables en ciertas áreas —como el razonamiento cuantitativo exacto, la ejecución de tareas con dependencia temporal o el acceso a fuentes de datos en tiempo real— se integran herramientas externas especializadas para ampliar su funcionalidad (11)(18).
 Estas herramientas se pueden agrupar en tres grandes categorías, según el tipo de apoyo que ofrecen:
-•	Herramientas para acceso a datos externos: permiten a los agentes consultar APIs, bases de datos en vivo o motores de búsqueda para obtener información actualizada o específica.
-•	Herramientas de cálculo y procesamiento simbólico: utilizadas para resolver operaciones matemáticas avanzadas, evaluar expresiones lógicas o realizar transformaciones precisas de datos.
-•	Herramientas de interacción estructurada: como generadores de código, visualizadores de diagramas, editores de documentos o conectores con plataformas externas (por ejemplo, Slack, Notion, Jira), que permiten a los agentes producir resultados tangibles y funcionales en formatos útiles para el usuario final.
+Herramientas para acceso a datos externos: permiten a los agentes consultar APIs, bases de datos en vivo o motores de búsqueda para obtener información actualizada o específica.
+Herramientas de cálculo y procesamiento simbólico: utilizadas para resolver operaciones matemáticas avanzadas, evaluar expresiones lógicas o realizar transformaciones precisas de datos.
+Herramientas de interacción estructurada: como generadores de código, visualizadores de diagramas, editores de documentos o conectores con plataformas externas (por ejemplo, Slack, Notion, Jira), que permiten a los agentes producir resultados tangibles y funcionales en formatos útiles para el usuario final.
 Estas herramientas actúan como extensiones funcionales del agente, permitiendo que su razonamiento sea más preciso, verificable y adaptado a tareas del mundo real.
 
 
-2.1.6 Protocolo Model Context Protocol (MCP): el “USB-C” para conectar LLMs con el mundo real
+Protocolo Model Context Protocol (MCP): el “USB-C” para conectar LLMs con el mundo real
 El Model Context Protocol (MCP) es un estándar abierto, presentado por Anthropic a finales del 2024, diseñado para conectar de manera automática, segura y estandarizada los modelos de lenguaje (LLMs) con datos y herramientas externas 
 ¿Por qué es relevante?
 Antes de MCP, cada integración con datos o APIs requería un desarrollo específico para el agente, lo que complicaba el mantenimiento y la escalabilidad (problema M×N). MCP lo resuelve mediante una interfaz única, independiente del modelo o fuente, facilitando:
-•	Conectar el LLM con múltiples herramientas sin escribir conectores repetitivos.
-•	Cambiar entre distintos proveedores de LLM sin reprogramar las integraciones.
-•	Mantener un control seguro del acceso a datos, sin exponer claves sensibles 
+Conectar el LLM con múltiples herramientas sin escribir conectores repetitivos.
+Cambiar entre distintos proveedores de LLM sin reprogramar las integraciones.
+Mantener un control seguro del acceso a datos, sin exponer claves sensibles 
 
 
 
@@ -79,50 +79,50 @@ Antes de MCP, cada integración con datos o APIs requería un desarrollo especí
 
 Arquitectura cliente servidor
 MCP sigue un modelo clásico cliente servidor basado en JSON RPC 2.0:
-•	Hosts: aplicaciones LLM que requieren contexto (como IDEs o chatbots).
-•	Clientes MCP: componentes que gestionan conexiones a servidores.
-•	Servidores MCP: exponen datos, recursos y herramientas accesibles al modelo.
-•	Fuentes de datos: pueden ser locales (archivos, bases) o remotas (APIs) 
+Hosts: aplicaciones LLM que requieren contexto (como IDEs o chatbots).
+Clientes MCP: componentes que gestionan conexiones a servidores.
+Servidores MCP: exponen datos, recursos y herramientas accesibles al modelo.
+Fuentes de datos: pueden ser locales (archivos, bases) o remotas (APIs) 
 
 Componentes clave del protocolo
-•	Resources: datos consultables como documentos, bases de datos, estados.
-•	Tools: funciones ejecutables (API calls, cálculos, etc.).
-•	Prompts: plantillas específicas que el servidor ofrece al agente para estandarizar el acceso. 
+Resources: datos consultables como documentos, bases de datos, estados.
+Tools: funciones ejecutables (API calls, cálculos, etc.).
+Prompts: plantillas específicas que el servidor ofrece al agente para estandarizar el acceso. 
 
 Ecosistema y adopción
 En 2025, MCP ha sido adoptado por actores como OpenAI, Google DeepMind, Replit, Sourcegraph y Microsoft Copilot Studio (15)(14), consolidándose como la interfaz estándar entre LLMs y el ecosistema de herramientas 
 Además, existen múltiples servicios MCP open-source, por ejemplo para Slack, GitHub, Google Drive, bases SQL y automatización de navegador 
 En resumen, MCP es un estándar crucial que convierte a los LLMs en “agentes conectables”, capaces de interactuar con el mundo real sin complejos desarrollos por integración. Su enfoque seguro, modular y escalable lo posiciona como una herramienta estratégica para arquitecturas humanas IA organizadas y seguras, como BusinessAnalistGPT.
 
-2.1.7 Inteligencia Artificial Agéntica y coordinación en sistemas multiagente
+Inteligencia Artificial Agéntica y coordinación en sistemas multiagente
 Aunque el término Inteligencia Artificial Agéntica (Agentic AI) ha ganado popularidad recientemente, su fundamento teórico se encuentra profundamente arraigado en el campo de los sistemas multiagente (MAS). A pesar de que en el discurso popular los modelos de lenguaje de gran tamaño (LLMs) suelen ser representados como inteligencias generales autónomas, en la práctica, las aplicaciones reales dependen en mayor medida de redes coordinadas de agentes especializados.
 En este contexto, la coordinación multiagente resulta esencial para combinar capacidades cognitivas y operativas diferenciadas, regular dinámicas emergentes en entornos distribuidos y garantizar que las decisiones que se tomen sean rastreables, verificables y auditables. Además, la interacción entre la IA y la cognición humana está desdibujando los límites entre los agentes puramente humanos y aquellos aumentados por IA.
 Particularmente relevante es el concepto de agentes centáuricos monotónicos, que surge cuando la IA complementa el juicio humano sin alterar la integridad semántica de sus decisiones. En estos casos, la IA puede refinar, aclarar o reforzar las intenciones humanas, pero nunca contradecirlas. Este principio de monotonía semántica resulta crítico en escenarios donde la precisión y la seguridad son prioritarias, como en protocolos clínicos o procedimientos de emergencia.
 Dentro del marco TB-CSPN (Topic-Based Conditional Structured Process Networks), esta propiedad se preserva mediante mecanismos como umbrales de control (threshold guards) y supervisión directa por parte de agentes humanos o centáuricos (3)(17)(22)(23)(24). De este modo, se asegura que los valores, intenciones y semántica original definidos por humanos se mantengan intactos, mientras que los agentes se benefician de mejoras computacionales en velocidad, precisión y consistencia.
 La arquitectura propuesta en el TB-CSPN contempla dos dimensiones organizativas principales. En primer lugar, se encuentra la categorización funcional de los agentes:
-•	Agentes Supervisores: incluyen tanto humanos como centáuricos monotónicos; son responsables de decisiones de alto nivel y supervisión general.
-•	Agentes Consultores: implementados típicamente con LLMs, se encargan de tareas como interpretación semántica, abstracción y síntesis lingüística.
-•	Agentes Ejecutores (Workers): desempeñan tareas específicas dentro de dominios concretos, con comportamientos deterministas y bien definidos.
+Agentes Supervisores: incluyen tanto humanos como centáuricos monotónicos; son responsables de decisiones de alto nivel y supervisión general.
+Agentes Consultores: implementados típicamente con LLMs, se encargan de tareas como interpretación semántica, abstracción y síntesis lingüística.
+Agentes Ejecutores (Workers): desempeñan tareas específicas dentro de dominios concretos, con comportamientos deterministas y bien definidos.
 En segundo lugar, se definen tres capas de comunicación o interacción que estructuran el sistema:
-•	Capa de Superficie (Surface Layer): donde interactúan los agentes supervisores.
-•	Capa de Observación (Observation Layer): asociada a los agentes consultores y al monitoreo del sistema.
-•	Capa de Cómputo (Computation Layer): donde operan los agentes ejecutores.
+Capa de Superficie (Surface Layer): donde interactúan los agentes supervisores.
+Capa de Observación (Observation Layer): asociada a los agentes consultores y al monitoreo del sistema.
+Capa de Cómputo (Computation Layer): donde operan los agentes ejecutores.
 Cada transición entre estados del sistema pertenece exclusivamente a una de estas capas, pero los agentes no están limitados a una única dimensión. Si bien tienen responsabilidades principales en capas específicas (por ejemplo, los supervisores en la superficie, los consultores en la observación y los ejecutores en el cómputo), pueden participar en transiciones ubicadas en otras capas cuando sea necesario.
 Esta flexibilidad estructural permite a los agentes operar predominantemente en su dominio de especialización, sin perder la capacidad de interactuar transversalmente en todo el sistema. El concepto de Espacio de Eventos (Event Space) define además el punto de contacto entre los estímulos externos y las dinámicas internas del sistema, funcionando como interfaz de entrada sensorial e interpretativa.
 En conjunto, esta arquitectura basada en capas y tipos de agentes favorece una coordinación coherente, modular y trazable, al tiempo que permite mantener funciones especializadas. Así, se potencia la colaboración efectiva entre agentes humanos e IA, respetando la semántica y los valores originales de la organización.
 
-2.1.8 ReAct: Razonamiento y Acción en Sistemas Multiagente
+ReAct: Razonamiento y Acción en Sistemas Multiagente
 ReAct (Reasoning and Acting) es un enfoque emergente que combina razonamiento deliberativo con ejecución de acciones en entornos interactivos, y ha sido adoptado recientemente como estrategia eficaz dentro de arquitecturas de agentes basados en modelos de lenguaje. Introducido por Yao (19) en 2022, ReAct permite que un agente —típicamente un LLM— razone en lenguaje natural mientras interactúa con su entorno mediante acciones observables, creando así un ciclo iterativo de pensamiento y actuación.
 En el contexto de sistemas multiagente, ReAct representa un paradigma híbrido que supera las limitaciones de agentes puramente reactivos o puramente planificadores. A través de este modelo, un agente puede:
-•	Formular hipótesis sobre el entorno (razonamiento),
-•	Ejecutar acciones exploratorias o informativas (actuación),
-•	Evaluar los resultados de sus acciones,
-•	Y ajustar su razonamiento de forma dinámica en función del nuevo contexto.
+Formular hipótesis sobre el entorno (razonamiento),
+Ejecutar acciones exploratorias o informativas (actuación),
+Evaluar los resultados de sus acciones,
+Y ajustar su razonamiento de forma dinámica en función del nuevo contexto.
 Esta capacidad es especialmente útil en entornos distribuidos y con alta incertidumbre, como aquellos donde interactúan humanos, LLMs y agentes especializados. Integrar ReAct en una arquitectura como TB-CSPN, por ejemplo, permite que los agentes consultores basados en LLM no solo generen conocimiento pasivamente, sino que participen activamente en la resolución de tareas, ajustando sus inferencias con base en retroalimentación y efectos causales.
 Además, el enfoque ReAct facilita una colaboración más coherente entre agentes, ya que el razonamiento intermedio se vuelve transparente y trazable para otros componentes del sistema (19). Esto permite coordinar flujos de información entre capas (superficie, observación, cómputo) y mantener la integridad semántica de los objetivos del sistema.
 En suma, ReAct ofrece una solución flexible y eficaz para la implementación de agentes autónomos que requieren adaptabilidad, interpretación contextual y capacidad de intervención en tiempo real, posicionándose como una herramienta clave en arquitecturas agenticas modernas.
 
-2.1.9 MAD: Debate Multiagente como Mecanismo de Razonamiento Colectivo
+MAD: Debate Multiagente como Mecanismo de Razonamiento Colectivo
 MAD (Multi-Agent Debate) es un enfoque de coordinación basado en deliberación colaborativa, en el cual múltiples agentes —habitualmente implementados mediante LLMs— participan en una estructura dialógica de discusión para resolver problemas complejos, validar decisiones o generar respuestas optimizadas. Inspirado en principios de argumentación lógica y deliberación humana, MAD busca aprovechar la diversidad de perspectivas entre agentes autónomos para alcanzar conclusiones más robustas y justificadas (10).
 En lugar de delegar una tarea a un solo agente, el enfoque MAD propone que varios agentes expongan argumentos, contraargumentos y justificaciones en un entorno controlado, simulando un debate estructurado. A lo largo de este proceso, un moderador (que puede ser otro agente o un humano) evalúa la validez, coherencia y relevancia de las aportaciones, seleccionando la mejor propuesta o integrando múltiples perspectivas en una solución compuesta.
 
@@ -133,9 +133,9 @@ En lugar de delegar una tarea a un solo agente, el enfoque MAD propone que vario
 
 
 Dentro de un marco como TB-CSPN, MAD puede integrarse como mecanismo semántico de validación cruzada (10)(11) en las capas de supervisión y observación. Por ejemplo:
-•	Agentes consultores pueden sostener un debate sobre la interpretación de requisitos de usuario ambiguos.
-•	Agentes especializados pueden presentar distintas estrategias de implementación.
-•	Agentes centáuricos pueden intervenir con criterios éticos o estratégicos desde la supervisión humana.
+Agentes consultores pueden sostener un debate sobre la interpretación de requisitos de usuario ambiguos.
+Agentes especializados pueden presentar distintas estrategias de implementación.
+Agentes centáuricos pueden intervenir con criterios éticos o estratégicos desde la supervisión humana.
 
 El valor de MAD radica en su capacidad para detectar contradicciones, fortalecer la trazabilidad semántica, y reducir el sesgo de decisión, especialmente en contextos donde la ambigüedad, la subjetividad o la incertidumbre son elevadas.
 Además, el debate multiagente fomenta la transparencia y la explicabilidad en los sistemas, ya que cada decisión final puede estar respaldada por un registro estructurado de razonamientos y justificaciones intercambiadas entre los agentes.
@@ -144,21 +144,21 @@ En resumen, MAD proporciona un marco eficaz para el razonamiento colectivo en si
 
 
 
-2.1.10 Integración y colaboración entre humanos e inteligencia artificial
+Integración y colaboración entre humanos e inteligencia artificial
 La integración efectiva entre sistemas de IA y agentes humanos constituye un eje central del marco TB-CSPN. Este enfoque se apoya en el concepto de agentes centáuricos, es decir, híbridos formados por humanos asistidos por inteligencia artificial. Esta idea se inspira en los desarrollos en inteligencia aumentada y en el creciente cuerpo de trabajo sobre equipos humano-IA, que promueven una colaboración fluida y complementaria entre ambas partes.
 Para comprender cómo los humanos interactúan con los sistemas de IA en contextos reales, se consideran los aportes de Giudici (22), quienes analizan las respuestas cognitivas y conductuales de los usuarios frente a sistemas interactivos basados en IA. Asimismo, estudios como los de Kim e Im abordan cómo los usuarios atribuyen características humanas a los sistemas inteligentes, lo que influye directamente en la forma en que los agentes supervisores humanos se relacionan con el resto de la arquitectura del sistema.
 Además, los aspectos emocionales y sociales de la interacción humano-máquina cobran especial relevancia. En este sentido, el trabajo de Ahmadi y Haddadi (24) sobre Inteligencia Emocional Artificial ofrece un marco útil para diseñar canales de comunicación más empáticos y eficaces entre agentes de distinta naturaleza.
 A diferencia de muchos enfoques tradicionales, en los que el ser humano actúa como controlador externo o mero supervisor de sistemas automáticos, nuestro marco conceptual considera a los humanos como agentes de primer orden dentro del modelo formal. Esta elección permite una integración más natural del juicio humano en la dinámica general del sistema, al tiempo que preserva la distribución adecuada de roles, responsabilidades y autoridad entre los distintos tipos de agentes.
 Mientras que TB-CSPN se centra en la mediación semántica y en la orquestación dinámica de tareas, otras propuestas —como la de Zhang (17)— abordan la colaboración humano-IA desde perspectivas complementarias, como la fusión de características multidimensionales y el aprendizaje por ensamblado, orientadas a mejorar la detección robusta de anomalías y decisiones complejas en entornos inciertos.
 
-2.1.11 Modelado de tópicos como puente semántico
+Modelado de tópicos como puente semántico
 Para lograr una integración efectiva entre formas simbólicas y subsimbólicas de inteligencia, se propone el uso del modelado de tópicos como capa intermedia de mediación semántica. Aunque esta técnica no es profunda en términos de aprendizaje automático, desempeña un papel fundamental como interfaz semántica entre humanos e inteligencia artificial.
 El modelado de tópicos permite condensar grandes volúmenes de datos textuales en vectores de tópicos fácilmente interpretables. Esto facilita que agentes humanos o centáuricos puedan inspeccionar, modificar o seleccionar tópicos de manera explícita. Por su parte, los agentes consultores, generalmente basados en LLMs, son capaces de desarrollar, enriquecer o recombinar estos tópicos para generar nuevas interpretaciones o descubrimientos. En paralelo, los agentes ejecutores pueden suscribirse dinámicamente a los tópicos más relevantes, filtrando la información que necesitan para realizar tareas específicas de forma más eficiente.
 A diferencia de los sistemas opacos de aprendizaje profundo de extremo a extremo, el modelado de tópicos introduce un nivel de alineación explícita entre la comprensión humana y la inferencia automática, lo que resulta clave para la trazabilidad y control semántico. Entre sus enfoques más representativos destaca el algoritmo Latent Dirichlet Allocation (LDA) desarrollado por Blei (4)(5), el cual modela los documentos como combinaciones probabilísticas de tópicos latentes, y los tópicos como distribuciones de palabras, generando así una estructura semántica interpretable.
 Este enfoque ha sido extendido en múltiples direcciones, incluyendo modelos de tópicos neuronales que combinan las ventajas de las representaciones profundas con la necesidad de mantener interpretabilidad. Las aplicaciones del modelado de tópicos abarcan desde el descubrimiento de hipertextos latentes hasta la construcción de índices financieros a partir de análisis de redes sociales.
 El marco propuesto en este trabajo amplía dichos usos, aplicándolos específicamente al dominio de la coordinación multiagente, donde los tópicos actúan como vectores compartidos de significado y contexto entre agentes con funciones diferenciadas.
 
-2.1.12 Sistemas de interacción guiados por tópicos
+Sistemas de interacción guiados por tópicos
 La orientación temática del modelo TB-CSPN se alinea con investigaciones recientes que abordan la coordinación basada en tópicos en distintos dominios de aplicación. Este enfoque pone el énfasis en utilizar representaciones semánticas compartidas como mecanismo de estructuración de la interacción entre agentes.
 Por ejemplo, Lu (25). han integrado el reconocimiento emocional multimodal con modelos conscientes del contexto temático en el ámbito de la robótica social, lo que permite generar interacciones más sensibles al entorno y al estado emocional del usuario. En una línea similar, Wang (26). desarrollaron mecanismos de selección de conocimiento impulsados por tópicos para la generación de diálogos, logrando así respuestas más relevantes y alineadas con el contexto conversacional.
 El concepto de interacción implícita basada en intereses temáticos también ha sido analizado por Hanteer y Rossi (27), quienes estudiaron cómo los usuarios en redes sociales tienden a agruparse en torno a intereses compartidos. El marco TB-CSPN amplía este principio, aplicándolo a la coordinación explícita entre agentes heterogéneos —humanos, LLMs y agentes de IA especializados— utilizando distribuciones de tópicos como mecanismo central para la formación dinámica de grupos y la organización de tareas colaborativas.
@@ -174,8 +174,8 @@ El concepto de interacción implícita basada en intereses temáticos también h
 
 
 
-2.2 Marco teórico propuesto
-2.2.1 Introducción a la teoría organizacional para sistemas multiagente
+Marco teórico propuesto
+Introducción a la teoría organizacional para sistemas multiagente
 
 Los sistemas multiagente actuales enfrentan desafíos crecientes debido a la necesidad de integrar agentes humanos, modelos de lenguaje de gran tamaño (LLMs) y sistemas de inteligencia artificial especializados. Borghoff et al. (2025) sostienen que, en este nuevo paradigma, no basta con optimizar las capacidades individuales de cada agente; es imprescindible establecer una estructura organizativa que facilite su colaboración de forma eficiente y coherente.
 En este sentido, la teoría organizacional propuesta por estos autores introduce una arquitectura cognitiva y operativa que traslada principios del diseño organizacional humano —como jerarquías funcionales, asignación de roles y normativas compartidas— al ámbito de los sistemas distribuidos compuestos por agentes híbridos. Este enfoque ofrece una base conceptual sólida para analizar y diseñar entornos colaborativos complejos, como el que se persigue con el desarrollo de BusinessAnalistGPT.
@@ -183,7 +183,7 @@ Dentro de las distintas alternativas existentes, se ha seleccionado el marco TB-
 
 
 
-2.2.2 La organización como marco para la interacción
+La organización como marco para la interacción
 
 En lugar de tratar a los agentes como entidades aisladas, la teoría los enmarca como actores en una organización distribuida, donde el conocimiento está fragmentado y requiere ser coordinado. Las decisiones emergen no de un solo agente omnisciente, sino del proceso interactivo entre múltiples entidades con información parcial, motivaciones específicas y capacidades heterogéneas.
 
@@ -192,13 +192,13 @@ La propuesta parte de considerar a los sistemas multiagente no como simples conj
 
 En particular, se destaca que la incorporación de agentes humanos y LLMs en un mismo ecosistema operativo requiere marcos estructurados que guíen las interacciones, minimicen errores y aseguren coherencia semántica. Para ello, la teoría propone adoptar principios del diseño organizacional clásico, como los roles funcionales, la jerarquía de control, y las reglas operativas compartidas, adaptadas a un entorno digital y automatizado.
 
-2.2.3 Modelos de interacción y arquitectura de referencia
+Modelos de interacción y arquitectura de referencia
 
 El artículo introduce una arquitectura referencial compuesta por capas funcionales:
-•	Capa de percepción y comunicación, donde los agentes reciben información contextual o instrucciones.
-•	Capa deliberativa, donde los agentes interpretan sus tareas y contexto. 
-•	Capa organizacional, que regula la asignación de roles, negociación y resolución de conflictos.
-•	Capa de memoria compartida, que almacena estados, decisiones y conocimiento generado colectivamente.
+Capa de percepción y comunicación, donde los agentes reciben información contextual o instrucciones.
+Capa deliberativa, donde los agentes interpretan sus tareas y contexto. 
+Capa organizacional, que regula la asignación de roles, negociación y resolución de conflictos.
+Capa de memoria compartida, que almacena estados, decisiones y conocimiento generado colectivamente.
 
 Este modelo se inspira en estructuras organizacionales humanas como los equipos de proyecto, pero adaptadas a la lógica computacional distribuida.
 
@@ -206,13 +206,13 @@ Este modelo se inspira en estructuras organizacionales humanas como los equipos 
 
 
 
-2.2.4 Tipología y diseño de agentes
+Tipología y diseño de agentes
 
 El marco conceptual distingue tres tipos de agentes:
 
-•	Agentes Humanos: aportan juicio contextual, interpretación pragmática y toma de decisiones en condiciones de ambigüedad.
-•	Agentes LLM: procesan información textual compleja, proponen inferencias y sintetizan conocimiento en lenguaje natural.
-•	Agentes Especializados: ejecutan tareas técnicas concretas (p. ej., búsqueda, validación, ejecución de código) y son típicamente sistemas simbólicos o basados en herramientas específicas.
+Agentes Humanos: aportan juicio contextual, interpretación pragmática y toma de decisiones en condiciones de ambigüedad.
+Agentes LLM: procesan información textual compleja, proponen inferencias y sintetizan conocimiento en lenguaje natural.
+Agentes Especializados: ejecutan tareas técnicas concretas (p. ej., búsqueda, validación, ejecución de código) y son típicamente sistemas simbólicos o basados en herramientas específicas.
 
 Cada agente puede asumir diferentes roles organizativos dentro de una jerarquía de producción de conocimiento, desde generadores de contenido hasta revisores, integradores o coordinadores.
 
@@ -223,24 +223,24 @@ Cada agente puede asumir diferentes roles organizativos dentro de una jerarquía
 
 
 
-2.2.5 Mecanismos de alineación y control
+Mecanismos de alineación y control
 
 Uno de los aportes más relevantes es la identificación de mecanismos para mitigar el desalineamiento entre agentes, particularmente en la interacción entre humanos y LLMs. 
 
 Entre los mecanismos propuestos se destacan:
-•	Control distribuido con puntos de validación: se permite cierta autonomía, pero con nodos de supervisión o evaluación.
-•	Objetivos compartidos y planes jerárquicos: cada agente debe actuar en función de un objetivo organizacional superior, estructurado en subtareas que se asignan según competencia y rol.
-•	Mediación semántica: protocolos que aseguran que diferentes agentes entiendan los conceptos clave de forma coherente, incluso si sus arquitecturas son distintas (p. ej., humanos vs. LLMs) y protocolos de interacción normativos que definen formas estandarizadas de comunicación, validación, escalado de conflictos y revisión de tareas. Esto evita malentendidos y bucles improductivos típicos en arquitecturas agenticas con LLMs.
-•	Mecanismos de autoevaluación y retroalimentación: los agentes deben ser capaces de juzgar la calidad de sus contribuciones, proponer mejoras y coordinar con otros agentes para la resolución de errores.
+Control distribuido con puntos de validación: se permite cierta autonomía, pero con nodos de supervisión o evaluación.
+Objetivos compartidos y planes jerárquicos: cada agente debe actuar en función de un objetivo organizacional superior, estructurado en subtareas que se asignan según competencia y rol.
+Mediación semántica: protocolos que aseguran que diferentes agentes entiendan los conceptos clave de forma coherente, incluso si sus arquitecturas son distintas (p. ej., humanos vs. LLMs) y protocolos de interacción normativos que definen formas estandarizadas de comunicación, validación, escalado de conflictos y revisión de tareas. Esto evita malentendidos y bucles improductivos típicos en arquitecturas agenticas con LLMs.
+Mecanismos de autoevaluación y retroalimentación: los agentes deben ser capaces de juzgar la calidad de sus contribuciones, proponer mejoras y coordinar con otros agentes para la resolución de errores.
 
 
 
-2.2.6 Memoria compartida y representaciones externas
+Memoria compartida y representaciones externas
 Un aspecto innovador del marco es la introducción de una memoria organizacional compartida que almacena todas las interacciones, decisiones, artefactos y planes generados por los agentes. Esta memoria permite:
 
-•	Recuperar información contextual.
-•	Verificar coherencia entre decisiones pasadas y acciones presentes.
-•	Facilitar la incorporación de nuevos agentes a tareas en curso.
+Recuperar información contextual.
+Verificar coherencia entre decisiones pasadas y acciones presentes.
+Facilitar la incorporación de nuevos agentes a tareas en curso.
 
 Además, se promueve el uso de representaciones estructuradas (diagramas, tablas, flujos) como medio de comunicación preferente entre agentes, frente al uso exclusivo de lenguaje natural, debido a su mayor robustez semántica.
 
@@ -248,13 +248,13 @@ Una tecnología clave que complementa la idea de memoria organizacional comparti
 Esto no solo mejora la precisión y relevancia de las interacciones, sino que también refuerza la trazabilidad y consistencia organizacional. Integrar RAG en la arquitectura del sistema proporciona a los agentes una capacidad de recuperación semántica sobre 
 representaciones estructuradas y no estructuradas, potenciando el valor de la memoria compartida y promoviendo una toma de decisiones más informada.
 
-2.2.7 Representaciones y trazabilidad
+Representaciones y trazabilidad
 
 El marco enfatiza la necesidad de representaciones externas compartidas (documentos, mapas de tareas, logs, planes) como medio de coordinación entre agentes. Estas representaciones permiten:
-•	Trazabilidad de decisiones.
-•	Incorporación de nuevos agentes a sistemas en ejecución.
-•	Validación de resultados por humanos supervisores.
-•	Desambiguación en tareas complejas, especialmente si se requiere intervención humana posterior.
+Trazabilidad de decisiones.
+Incorporación de nuevos agentes a sistemas en ejecución.
+Validación de resultados por humanos supervisores.
+Desambiguación en tareas complejas, especialmente si se requiere intervención humana posterior.
 
 
 
@@ -264,14 +264,13 @@ El marco enfatiza la necesidad de representaciones externas compartidas (documen
 
 
 
-2.2.8 Implicaciones para la construcción de agentes inteligentes como BusinessAnalistGPT
+Implicaciones para la construcción de agentes inteligentes como BusinessAnalistGPT
 
 Aplicar esta teoría al caso del asistente BusinessAnalistGPT implica varios beneficios directos:
-•	Permite definir roles claros para los distintos componentes (generador de requerimientos, verificador, sintetizador, validador de flujos BPMN).
-•	Facilita el escalado modular mediante la incorporación de agentes especializados, manteniendo una estructura organizacional robusta.
-•	Mejora la interacción con el usuario final al contar con mecanismos de trazabilidad, interpretación contextual, memoria organizativa y control semántico. 
-•	Introducir mecanismos de verificación iterativa con feedback ejecutable, tal como ocurre en sistemas de desarrollo colaborativo como MetaGPT o ChatDev.
+Permite definir roles claros para los distintos componentes (generador de requerimientos, verificador, sintetizador, validador de flujos BPMN).
+Facilita el escalado modular mediante la incorporación de agentes especializados, manteniendo una estructura organizacional robusta.
+Mejora la interacción con el usuario final al contar con mecanismos de trazabilidad, interpretación contextual, memoria organizativa y control semántico. 
+Introducir mecanismos de verificación iterativa con feedback ejecutable, tal como ocurre en sistemas de desarrollo colaborativo como MetaGPT o ChatDev.
 
 Además, al tratar la interacción como un proceso sociotécnico más que técnico, se promueve una interfaz más natural con los usuarios humanos, al tiempo que se optimiza la eficiencia operativa del sistema. También se logra una mayor coherencia en la ejecución de tareas complejas, se minimiza la ambigüedad en la interacción humano-IA y se mejora la adaptabilidad del sistema ante cambios o intervenciones humanas
 
- 
